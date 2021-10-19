@@ -2,6 +2,19 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { database } from "./fire";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./screens/HomeScreen";
+import CreateGameScreen from "./screens/CreateGameScreen";
+
+const Stack = createStackNavigator();
+
+const globalScreenOptions = {
+  headerStyle: { backgroundColor: "#2C6BED" },
+  headerTitleStyle: { color: "white" },
+  headerTintColor: "white",
+};
 
 export default function App() {
   const [test_data, set_test_data] = useState();
@@ -37,19 +50,16 @@ export default function App() {
     callTestData();
   };
 
-  callTestData();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>{test_data}</Text>
-      <StatusBar style="auto" />
-      <Button
-        onPress={onPressToggleWinner}
-        title="Toggle Winner"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Create Game"
+        screenOptions={globalScreenOptions}
+      >
+        <Stack.Screen name="Paintsplat Project (ASWE)" component={HomeScreen} />
+        <Stack.Screen name="Create Game" component={CreateGameScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
