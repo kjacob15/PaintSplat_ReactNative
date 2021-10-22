@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={{backgroundColor: 'white', flex:1}}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>PaintSplat</Text>
+                <Text style={styles.title}>Seizure</Text>
             </View>
             <View style={styles.imageContainer}>
                 <Image source={{uri: 'https://t4.ftcdn.net/jpg/02/31/80/07/360_F_231800782_XmCI68ogKBHYg1ObcbXgrYK00436gIn4.jpg'}} style={styles.image}/>
