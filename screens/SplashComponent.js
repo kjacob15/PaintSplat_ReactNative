@@ -24,7 +24,7 @@ const SplashComponent = ({ tile, color, owner }) => {
   const opponentColor = useSelector(selectOpponentColor);
   //   const gameBoard = useSelector(selectGameboard);
   const dispatch = useDispatch();
-  console.log("render tile " + tile);
+  //   console.log("render tile " + tile);
 
   //   if (color) setCellColor(color);
 
@@ -53,8 +53,8 @@ const SplashComponent = ({ tile, color, owner }) => {
     }
     update.gamestate[tile] = playerName;
     await database.ref("/" + roomNum + "").update(update);
-    console.log(playerColor);
-    setCellColor(playerColor);
+    // console.log(playerColor);
+    // mycol = playerColor;
     // dispatch(updateGameboard({ gameboard: update }));
   };
 

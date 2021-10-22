@@ -49,7 +49,7 @@ const GameScreen = () => {
     setOwnerMap(cellOwnerMap);
 
     dispatch(updateGameboard({ gameboard: gameStateObj }));
-  }, 5000);
+  }, 500);
 
   const boundaryCheck = () => {
     setLeft(Math.floor(Math.random() * 200));
