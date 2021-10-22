@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     
     const setupGameRoom = () => {
-        dispatch(setRoom({roomId: randomCode}))
+        dispatch(setRoom({roomId: roomCode}))
         dispatch(setPlayer({name: 'p2'}))
         dispatch(setOpponent({name: 'p1'}))
         dispatch(setPlayerColor({color: 'blue'}))
