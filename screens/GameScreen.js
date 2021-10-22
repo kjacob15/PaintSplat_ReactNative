@@ -36,8 +36,13 @@ const GameScreen = () => {
 
     const cellOwnerMap = {};
     if (gameStateObj && gameStateObj.gamestate) {
-      for (eachKey in gameStateObj.gamestate) {
-        cellOwnerMap[eachKey] = gameStateObj.gamestate[eachKey];
+      for (const eachKey of Object.keys(gameStateObj.gamestate)) {
+        console.log(eachKey);
+
+        if (gameStateObj.gamestate[eachKey] == "p1")
+          cellOwnerMap[eachKey] = "red";
+        if (gameStateObj.gamestate[eachKey] == "p2")
+          cellOwnerMap[eachKey] = "blue";
       }
     }
 
@@ -73,22 +78,22 @@ const GameScreen = () => {
           flexWrap: "wrap",
         }}
       >
-        <SplashComponent tile="00" />
-        <SplashComponent tile="01" />
-        <SplashComponent tile="02" />
-        <SplashComponent tile="03" />
-        <SplashComponent tile="10" />
-        <SplashComponent tile="11" />
-        <SplashComponent tile="12" />
-        <SplashComponent tile="13" />
-        <SplashComponent tile="20" />
-        <SplashComponent tile="21" />
-        <SplashComponent tile="22" />
-        <SplashComponent tile="23" />
-        <SplashComponent tile="30" />
-        <SplashComponent tile="31" />
-        <SplashComponent tile="32" />
-        <SplashComponent tile="33" />
+        <SplashComponent tile="00" color={ownermap["00"]} />
+        <SplashComponent tile="01" color={ownermap["01"]} />
+        <SplashComponent tile="02" color={ownermap["02"]} />
+        <SplashComponent tile="03" color={ownermap["03"]} />
+        <SplashComponent tile="10" color={ownermap["10"]} />
+        <SplashComponent tile="11" color={ownermap["11"]} />
+        <SplashComponent tile="12" color={ownermap["12"]} />
+        <SplashComponent tile="13" color={ownermap["13"]} />
+        <SplashComponent tile="20" color={ownermap["20"]} />
+        <SplashComponent tile="21" color={ownermap["21"]} />
+        <SplashComponent tile="22" color={ownermap["22"]} />
+        <SplashComponent tile="23" color={ownermap["23"]} />
+        <SplashComponent tile="30" color={ownermap["30"]} />
+        <SplashComponent tile="31" color={ownermap["31"]} />
+        <SplashComponent tile="32" color={ownermap["32"]} />
+        <SplashComponent tile="33" color={ownermap["33"]} />
       </View>
     </View>
   );

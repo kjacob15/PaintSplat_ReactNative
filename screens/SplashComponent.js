@@ -15,7 +15,8 @@ import { useDispatch } from "react-redux";
 import { updateGameboard } from "../slices/gameStateSlice";
 
 const SplashComponent = ({ tile, color, owner }) => {
-  const [cellColor, setCellColor] = useState("white");
+  const mycol = color || "white";
+  //   const [cellColor, setCellColor] = useState("white");
   const roomNum = useSelector(selectRoom);
   const playerName = useSelector(selectPlayer);
   const playerColor = useSelector(selectPlayerColor);
@@ -25,13 +26,13 @@ const SplashComponent = ({ tile, color, owner }) => {
   const dispatch = useDispatch();
   console.log("render tile " + tile);
 
-  if (color) setCellColor(color);
+  //   if (color) setCellColor(color);
 
-  const tileOwner = owner;
-  if (tileOwner) {
-    if (tileOwner === playerName) setCellColor(playerColor);
-    else if (tileOwner === opponentName) setCellColor(opponentColor);
-  }
+  //   const tileOwner = owner;
+  //   if (tileOwner) {
+  //     if (tileOwner === playerName) mycol = playerColor;
+  //     else if (tileOwner === opponentName) mycol = opponentColor;
+  //   }
 
   const setTile = async () => {
     console.log("clicked");
@@ -72,7 +73,7 @@ const SplashComponent = ({ tile, color, owner }) => {
           height: "70%",
           width: "70%",
           borderRadius: 999,
-          backgroundColor: cellColor,
+          backgroundColor: mycol,
         }}
       >
         <TouchableOpacity
