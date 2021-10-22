@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { selectRoom } from "../slices/roomSlice";
 import { useSelector } from "react-redux";
 import { database } from "../fire";
@@ -19,12 +19,12 @@ const GameScreen = () => {
   const [ownermap, setOwnerMap] = useState({});
   const roomNum = useSelector(selectRoom);
   const dispatch = useDispatch();
-  console.log(roomNum);
+  //console.log(roomNum);
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(Date.now());
       boundaryCheck();
-    }, 5000);
+    }, 500);
     return () => {
       clearInterval(interval);
     };
@@ -37,7 +37,7 @@ const GameScreen = () => {
     const cellOwnerMap = {};
     if (gameStateObj && gameStateObj.gamestate) {
       for (const eachKey of Object.keys(gameStateObj.gamestate)) {
-        console.log(eachKey);
+        //console.log(eachKey);
 
         if (gameStateObj.gamestate[eachKey] == "p1")
           cellOwnerMap[eachKey] = "red";
@@ -64,7 +64,7 @@ const GameScreen = () => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <View
         style={{
           borderWidth: 2,
@@ -95,7 +95,7 @@ const GameScreen = () => {
         <SplashComponent tile="32" color={ownermap["32"]} />
         <SplashComponent tile="33" color={ownermap["33"]} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
