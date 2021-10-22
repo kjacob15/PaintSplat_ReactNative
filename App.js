@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./screens/HomeScreen";
 import CreateGameScreen from "./screens/CreateGameScreen";
+import GameScreen from "./screens/GameScreen";
 
 
 const Stack = createStackNavigator();
@@ -18,9 +19,10 @@ const globalScreenOptions = {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Create Game' screenOptions={globalScreenOptions}>
+      <Stack.Navigator initialRouteName='Game' screenOptions={globalScreenOptions}>
         <Stack.Screen name="Paintsplat Project (ASWE)" component={HomeScreen} />
         <Stack.Screen name="Create Game" component={CreateGameScreen} />
+        <Stack.Screen name="Game" component={GameScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
