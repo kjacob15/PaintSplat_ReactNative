@@ -14,25 +14,23 @@ import { selectGameboard } from "../slices/gameStateSlice";
 import { useDispatch } from "react-redux";
 import { updateGameboard } from "../slices/gameStateSlice";
 
-const SplashComponent = ({ tile, color }) => {
+const SplashComponent = ({ tile, color, owner }) => {
   const [cellColor, setCellColor] = useState("white");
   const roomNum = useSelector(selectRoom);
   const playerName = useSelector(selectPlayer);
   const playerColor = useSelector(selectPlayerColor);
   const opponentName = useSelector(selectOpponent);
   const opponentColor = useSelector(selectOpponentColor);
-  const gameBoard = useSelector(selectGameboard);
+  //   const gameBoard = useSelector(selectGameboard);
   const dispatch = useDispatch();
   console.log("render tile " + tile);
 
   if (color) setCellColor(color);
 
-  if (gameBoard && gameBoard.gamestate && gameBoard.gamestate[tile]) {
-    const tileOwner = gameBoard.gamestate[tile];
-    if (tileOwner) {
-      if (tileOwner === playerName) setCellColor(playerColor);
-      else if (tileOwner === opponentName) setCellColor(opponentColor);
-    }
+  const tileOwner = owner;
+  if (tileOwner) {
+    if (tileOwner === playerName) setCellColor(playerColor);
+    else if (tileOwner === opponentName) setCellColor(opponentColor);
   }
 
   const setTile = async () => {

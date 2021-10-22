@@ -16,6 +16,7 @@ const GameScreen = () => {
   const [left, setLeft] = useState(200);
   const [top, setTop] = useState(200);
   const [time, setTime] = useState(Date.now());
+  const [ownermap, setOwnerMap] = useState({});
   const roomNum = useSelector(selectRoom);
   const dispatch = useDispatch();
   console.log(roomNum);
@@ -32,6 +33,16 @@ const GameScreen = () => {
   const gameCheckInterval = setInterval(async () => {
     const db = await database.ref("/" + roomNum + "").get();
     const gameStateObj = JSON.parse(JSON.stringify(db));
+
+    const cellOwnerMap = {};
+    if (gameStateObj && gameStateObj.gamestate) {
+      for (eachKey in gameStateObj.gamestate) {
+        cellOwnerMap[eachKey] = gameStateObj.gamestate[eachKey];
+      }
+    }
+
+    setOwnerMap(cellOwnerMap);
+
     dispatch(updateGameboard({ gameboard: gameStateObj }));
   }, 5000);
 
