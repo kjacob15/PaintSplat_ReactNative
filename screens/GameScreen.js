@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -45,9 +46,8 @@ const GameScreen = () => {
 
 export default GameScreen
 
-
-
 const styles = StyleSheet.create({
+
     gameBoard:{
         height: 200,
         width: 200,
@@ -56,3 +56,4 @@ const styles = StyleSheet.create({
         // left: {left}
     }
 })
+

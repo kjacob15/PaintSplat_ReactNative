@@ -51,6 +51,15 @@ export default function App() {
     callTestData();
   };
 
+  const setTile = async (tile) => {
+    const db = await database.ref("/test_room").get();
+    if (db.gamestate[title] && db.gamestate[title].trim() !== "") {
+      // set the tile here and colour the tile
+      let update = JSON.parse(JSON.stringify(db));
+      update.gamestate[title] = "P2";
+    }
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Game' screenOptions={globalScreenOptions}>
