@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { selectRoom } from "../slices/roomSlice";
+import { useSelector } from "react-redux";
 
 import SplashComponent from "./SplashComponent";
 
@@ -11,6 +13,8 @@ const GameScreen = () => {
   const [left, setLeft] = useState(200);
   const [top, setTop] = useState(200);
   const [time, setTime] = useState(Date.now());
+  const roomNum = useSelector(selectRoom);
+  console.log(roomNum)
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(Date.now());
@@ -48,7 +52,7 @@ const GameScreen = () => {
           flexWrap: "wrap",
         }}
       >
-        <SplashComponent color="blue" />
+        <SplashComponent />
         <SplashComponent />
         <SplashComponent />
         <SplashComponent />

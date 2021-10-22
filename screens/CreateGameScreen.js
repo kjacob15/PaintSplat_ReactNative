@@ -1,8 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useDispatch } from "react-redux";
+import { setRoom } from "../slices/roomSlice";
+
+import { setPlayer, setOpponent, setPlayerColor, setOpponentColor } from "../slices/playerSlice";
+
+
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CreateGameScreen = ({navigation}) => 
 {
+    const dispatch = useDispatch();
+
     function getRandomString(length) {
         var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var result = '';
@@ -12,12 +21,18 @@ const CreateGameScreen = ({navigation}) =>
         return result;
     }
     const [randomCode, setRandomCode] = useState(getRandomString(4));
-
+    dispatch(setRoom({roomId: randomCode}))
+    dispatch(setPlayer({name: 'p1'}))
+    dispatch(setOpponent({name: 'p2'}))
+    dispatch(setPlayerColor({color: 'red'}))
+    dispatch(setOpponentColor({color: 'blue'}))
     return (
         <View>
             <View style={styles.roomCodeContainer}>
                 <Text style={styles.textRoomCodeTitle}>Your Random Room Code:</Text>
-                <Text style={styles.textRoomCode} >{randomCode}</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('Game')}>
+                    <Text style={styles.textRoomCode}>{randomCode}</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
