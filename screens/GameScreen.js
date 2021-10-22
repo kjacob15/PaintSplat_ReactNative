@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { selectRoom } from "../slices/roomSlice";
 import { useSelector } from "react-redux";
+import { database } from "../fire";
+import { useDispatch } from "react-redux";
+import { updateGameboard } from "../slices/gameStateSlice";
 
 import SplashComponent from "./SplashComponent";
 
@@ -14,7 +17,8 @@ const GameScreen = () => {
   const [top, setTop] = useState(200);
   const [time, setTime] = useState(Date.now());
   const roomNum = useSelector(selectRoom);
-  console.log(roomNum)
+  const dispatch = useDispatch();
+  console.log(roomNum);
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(Date.now());
@@ -24,6 +28,12 @@ const GameScreen = () => {
       clearInterval(interval);
     };
   }, []);
+
+  const gameCheckInterval = setInterval(async () => {
+    const db = await database.ref("/" + roomNum + "").get();
+    const gameStateObj = JSON.parse(JSON.stringify(db));
+    dispatch(updateGameboard({ gameboard: gameStateObj }));
+  }, 5000);
 
   const boundaryCheck = () => {
     setLeft(Math.floor(Math.random() * 200));
@@ -68,7 +78,6 @@ const GameScreen = () => {
         <SplashComponent tile="31" />
         <SplashComponent tile="32" />
         <SplashComponent tile="33" />
-
       </View>
     </View>
   );
