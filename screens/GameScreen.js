@@ -15,7 +15,7 @@ const GameScreen = () => {
     const interval = setInterval(() => {
       setTime(Date.now());
       boundaryCheck();
-    }, 500);
+    }, 5000);
     return () => {
       clearInterval(interval);
     };
@@ -48,22 +48,22 @@ const GameScreen = () => {
           flexWrap: "wrap",
         }}
       >
-        <SplashComponent color="blue" />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
-        <SplashComponent />
+        <SplashComponent tile="00" />
+        <SplashComponent tile="01" />
+        <SplashComponent tile="02" />
+        <SplashComponent tile="03" />
+        <SplashComponent tile="10" />
+        <SplashComponent tile="11" />
+        <SplashComponent tile="12" />
+        <SplashComponent tile="13" />
+        <SplashComponent tile="20" />
+        <SplashComponent tile="21" />
+        <SplashComponent tile="22" />
+        <SplashComponent tile="23" />
+        <SplashComponent tile="30" />
+        <SplashComponent tile="31" />
+        <SplashComponent tile="32" />
+        <SplashComponent tile="33" />
       </View>
     </View>
   );
