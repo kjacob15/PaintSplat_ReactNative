@@ -52,7 +52,7 @@ const SplashComponent = ({ tile, color, owner }) => {
       update.gamestate = {};
     }
     update.gamestate[tile] = playerName;
-    await database.ref("/" + roomNum + "").update(update);
+    database.ref("/" + roomNum + "").update(update);
     // console.log(playerColor);
     // mycol = playerColor;
     // dispatch(updateGameboard({ gameboard: update }));

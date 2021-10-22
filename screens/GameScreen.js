@@ -24,10 +24,10 @@ const GameScreen = () => {
     const interval = setInterval(() => {
       setTime(Date.now());
       boundaryCheck();
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
+    }, 1000);
+    // return () => {
+    //   //   clearInterval(interval);
+    // };
   }, []);
 
   const gameCheckInterval = setInterval(async () => {
