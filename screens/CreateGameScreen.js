@@ -8,6 +8,8 @@ import {
   setOpponent,
   setPlayerColor,
   setOpponentColor,
+  setOpponentDisplayName,
+  selectPlayerDisplayName,
 } from "../slices/playerSlice";
 
 import { database } from "../fire";
@@ -15,6 +17,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const CreateGameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const playerDisplayName = useSelector(selectPlayerDisplayName);
 
   function getRandomString(length) {
     var randomChars =
@@ -28,7 +31,22 @@ const CreateGameScreen = ({ navigation }) => {
     return result;
   }
   const [randomCode, setRandomCode] = useState(getRandomString(4));
-  database.ref("/" + randomCode + "/isActive").set("true");
+  const update = {
+    isActive: "true",
+    p1DisplayName: playerDisplayName,
+    p2DisplayName: "",
+  };
+  database.ref("/" + randomCode).update(update);
+
+  database.ref("/" + randomCode + "/p2DisplayName").on("value", (snapshot) => {
+    const p2Name = snapshot.val();
+    if (p2Name && p2Name.trim() !== "") {
+      //TODO: valid p2name, so dispatch p2 display name and proceed to game
+      dispatch(setOpponentDisplayName({ displayName: p2Name }));
+      navigation.navigate("Game");
+    }
+  });
+
   dispatch(setRoom({ roomId: randomCode }));
   dispatch(setPlayer({ name: "p1" }));
   dispatch(setOpponent({ name: "p2" }));

@@ -9,6 +9,8 @@ import {
   setOpponent,
   setPlayerColor,
   setOpponentColor,
+  setOpponentDisplayName,
+  setPlayerDisplayName,
 } from "../slices/playerSlice";
 
 const HomeScreen = ({ navigation }) => {
@@ -16,13 +18,18 @@ const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const setupGameRoom = async () => {
-    const gameState = database.ref("/" + roomNum + "/isActive").get();
+    const gameState = database.ref("/" + roomNum).get();
 
-    if (!isGameRoomActive) {
+    if (!gameState.isActive) {
       console.log("room doesn't exist");
       return;
     }
 
+    await database.ref("/" + roomNum + "/p2DisplayName").set(""); //TODO: pass playername state variable here
+
+    const opponentName = gameState.p1DisplayName;
+    dispatch(setOpponentDisplayName({ displayName: opponentName }));
+    dispatch(setPlayerDisplayName({ displayName: "" })); //TODO: pass playername state variable here
     dispatch(setRoom({ roomId: roomCode }));
     dispatch(setPlayer({ name: "p2" }));
     dispatch(setOpponent({ name: "p1" }));
@@ -30,7 +37,6 @@ const HomeScreen = ({ navigation }) => {
     dispatch(setOpponentColor({ color: "red" }));
     navigation.navigate("Game");
   };
-
 
   console.log(roomCode);
   return (
@@ -55,12 +61,16 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <View>
-                    <TextInput style={styles.textInput} placeholder='Enter Room id' value={roomCode} 
-                                onChangeText={(e) => setRoomCode(e)}></TextInput>
-                    <TouchableOpacity style={styles.button} onPress={setupGameRoom}>
-                        <Text style={{fontSize: 20, color: 'white'}}>Join Game Room</Text>
-                    </TouchableOpacity>
-                </View>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Enter Room id"
+            value={roomCode}
+            onChangeText={(e) => setRoomCode(e)}
+          ></TextInput>
+          <TouchableOpacity style={styles.button} onPress={setupGameRoom}>
+            <Text style={{ fontSize: 20, color: "white" }}>Join Game Room</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -103,14 +113,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  textInput:{
-    borderWidth:1,
-    borderColor: 'black',
+  textInput: {
+    borderWidth: 1,
+    borderColor: "black",
     height: 50,
     marginBottom: 20,
     borderRadius: 99,
-    textAlign: 'center',
-    fontSize: 15
-    }
+    textAlign: "center",
+    fontSize: 15,
+  },
 });
-
