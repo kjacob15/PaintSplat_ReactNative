@@ -55,17 +55,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonsContainer}>
         <View>
-<<<<<<< HEAD
-          <TextInput
-            style={styles.textInput}
-            placeholder="Enter Room id"
-            value={roomCode}
-            onChangeText={(e) => setRoomCode(e)}
-          ></TextInput>
-          <TouchableOpacity style={styles.button} onPress={setupGameRoom}>
-            <Text style={{ fontSize: 20, color: "white" }}>Join Game Room</Text>
-          </TouchableOpacity>
-=======
+
             <TextInput style={[styles.textInput, {width: 250, marginTop: -40}]} placeholder='Enter your player name:' value={displayName} 
                     onChangeText={(e) => setDisplayName(e)}></TextInput>
         </View>
@@ -89,7 +79,6 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
->>>>>>> 49f6a0cee8a5ab7f711ceba54eb858ad83937bea
         </View>
       </View>
     </View>
