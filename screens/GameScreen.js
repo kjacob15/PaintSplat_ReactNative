@@ -36,7 +36,6 @@ const GameScreen = () => {
   const roomSnapshot = database.ref("/" + roomNum + "");
 
   roomSnapshot.on("value", (snapshot) => {
-    console.log("handler called");
     const data = snapshot.val();
 
     if (data && data.gamestate) {
