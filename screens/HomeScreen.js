@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { database } from "../fire";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import {
 
 const HomeScreen = ({ navigation }) => {
   const [roomCode, setRoomCode] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const dispatch = useDispatch();
 
   const setupGameRoom = async () => {
@@ -42,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Seizure</Text>
+        <Text style={styles.title}>PaintSplat (ASWE)</Text>
       </View>
       <View style={styles.imageContainer}>
         <Image
@@ -53,14 +54,8 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Create Game")}
-          style={styles.button}
-        >
-          <Text style={{ fontSize: 20, color: "white" }}>Create Game Room</Text>
-        </TouchableOpacity>
-
         <View>
+<<<<<<< HEAD
           <TextInput
             style={styles.textInput}
             placeholder="Enter Room id"
@@ -70,6 +65,31 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.button} onPress={setupGameRoom}>
             <Text style={{ fontSize: 20, color: "white" }}>Join Game Room</Text>
           </TouchableOpacity>
+=======
+            <TextInput style={[styles.textInput, {width: 250, marginTop: -40}]} placeholder='Enter your player name:' value={displayName} 
+                    onChangeText={(e) => setDisplayName(e)}></TextInput>
+        </View>
+
+        <View style={styles.createOrJoinContainer}>
+            <View>
+                <TextInput style={styles.textInput} placeholder='Enter Room id' value={roomCode} 
+                        onChangeText={(e) => setRoomCode(e)}></TextInput>
+                <TouchableOpacity style={[styles.button, {marginBottom:0}]} onPress={setupGameRoom}>
+                    <Text style={{fontSize: 20, color: 'white'}}>Join Game Room</Text>
+                </TouchableOpacity>
+            </View>
+            
+            <Text style={{textAlign: 'center', marginVertical: 30, fontWeight:'bold', fontSize: 20}}>OR</Text>
+            
+            <View>
+                <TouchableOpacity
+                        onPress={() => navigation.navigate("Create Game")}
+                        style={styles.button}>
+                    <Text style={{ fontSize: 20, color: "white" }}>Create Game Room</Text>
+                </TouchableOpacity>
+            </View>
+
+>>>>>>> 49f6a0cee8a5ab7f711ceba54eb858ad83937bea
         </View>
       </View>
     </View>
@@ -93,6 +113,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: "contain",
+    marginTop: -40
   },
 
   imageContainer: {
@@ -113,11 +134,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+<<<<<<< HEAD
   textInput: {
     borderWidth: 1,
     borderColor: "black",
+=======
+  createOrJoinContainer:{
+    marginTop: 60,
+  },
+
+  textInput:{
+    borderWidth:1,
+    borderColor: 'black',
+>>>>>>> 49f6a0cee8a5ab7f711ceba54eb858ad83937bea
     height: 50,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 99,
     textAlign: "center",
     fontSize: 15,
