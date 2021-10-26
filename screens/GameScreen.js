@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { database } from "../fire";
 import { useDispatch } from "react-redux";
 import { updateGameboard } from "../slices/gameStateSlice";
+import { selectPlayerColor } from "../slices/playerSlice";
 
 import SplashComponent from "./SplashComponent";
 
@@ -19,6 +20,7 @@ const GameScreen = () => {
   const [ownermap, setOwnerMap] = useState({});
   const [gamestatestr, setGamestatestr] = useState("");
   const roomNum = useSelector(selectRoom);
+  const playerColor = useSelector(selectPlayerColor);
   const dispatch = useDispatch();
   //console.log(roomNum);
   useEffect(() => {
@@ -47,40 +49,38 @@ const GameScreen = () => {
 
       const cellOwnerMap = {};
       if (gameStateObj && gameStateObj.gamestate) {
+        const redTiles = 0;
+        const blueTiles = 0;
         for (const eachKey of Object.keys(gameStateObj.gamestate)) {
           //console.log(eachKey);
 
-          if (gameStateObj.gamestate[eachKey] == "p1")
+          if (gameStateObj.gamestate[eachKey] == "p1") {
+            redTiles += 1;
             cellOwnerMap[eachKey] = "red";
-          if (gameStateObj.gamestate[eachKey] == "p2")
+          }
+          if (gameStateObj.gamestate[eachKey] == "p2") {
+            blueTiles += 1;
             cellOwnerMap[eachKey] = "blue";
+          }
+        }
+
+        if (playerColor == "red") {
+          if (redTiles > 8) {
+            console.log("You Win!");
+          } else if (blueTiles > 8) {
+            console.log("You Lose!");
+          }
+        } else {
+          if (redTiles > 8) {
+            console.log("You Lose!");
+          } else if (blueTiles > 8) {
+            console.log("You Win!");
+          }
         }
       }
       setOwnerMap(cellOwnerMap);
     }
   });
-
-  // const gameCheckInterval = setInterval(async () => {
-  //   const db = await database.ref("/" + roomNum + "").get();
-
-  //   const gameStateObj = JSON.parse(JSON.stringify(db));
-
-  //   const cellOwnerMap = {};
-  //   if (gameStateObj && gameStateObj.gamestate) {
-  //     for (const eachKey of Object.keys(gameStateObj.gamestate)) {
-  //       //console.log(eachKey);
-
-  //       if (gameStateObj.gamestate[eachKey] == "p1")
-  //         cellOwnerMap[eachKey] = "red";
-  //       if (gameStateObj.gamestate[eachKey] == "p2")
-  //         cellOwnerMap[eachKey] = "blue";
-  //     }
-  //   }
-
-  //   setOwnerMap(cellOwnerMap);
-
-  //   dispatch(updateGameboard({ gameboard: gameStateObj }));
-  // }, 1000);
 
   const boundaryCheck = () => {
     setLeft(Math.floor(Math.random() * 200));
