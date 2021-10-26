@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <View>
-                    <TextInput style={styles.testInput} placeholder='Enter Room id' value={roomCode} 
+                    <TextInput style={styles.textInput} placeholder='Enter Room id' value={roomCode} 
                                 onChangeText={(e) => setRoomCode(e)}></TextInput>
                     <TouchableOpacity style={styles.button} onPress={setupGameRoom}>
                         <Text style={{fontSize: 20, color: 'white'}}>Join Game Room</Text>
@@ -85,8 +85,11 @@ const styles = StyleSheet.create({
 
     textInput:{
         borderWidth:1,
-        borderColor: 'black'
+        borderColor: 'black',
+        height: 50,
+        marginBottom: 20,
+        borderRadius: 99,
+        textAlign: 'center',
+        fontSize: 15
     }
-
-    
 })
