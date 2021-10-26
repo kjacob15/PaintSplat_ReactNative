@@ -20,6 +20,7 @@ const HomeScreen = ({ navigation }) => {
 
     if (!isGameRoomActive) {
       console.log("room doesn't exist");
+      return;
     }
 
     dispatch(setRoom({ roomId: roomCode }));
