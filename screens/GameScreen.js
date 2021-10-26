@@ -17,6 +17,7 @@ const GameScreen = () => {
   const [top, setTop] = useState(200);
   const [time, setTime] = useState(Date.now());
   const [ownermap, setOwnerMap] = useState({});
+  const [gamestatestr, setGamestatestr] = useState("");
   const roomNum = useSelector(selectRoom);
   const dispatch = useDispatch();
   //console.log(roomNum);
@@ -30,26 +31,56 @@ const GameScreen = () => {
     // };
   }, []);
 
-  const gameCheckInterval = setInterval(async () => {
-    const db = await database.ref("/" + roomNum + "").get();
-    const gameStateObj = JSON.parse(JSON.stringify(db));
+  const roomSnapshot = database.ref("/" + roomNum + "");
 
-    const cellOwnerMap = {};
-    if (gameStateObj && gameStateObj.gamestate) {
-      for (const eachKey of Object.keys(gameStateObj.gamestate)) {
-        //console.log(eachKey);
+  roomSnapshot.on("value", (snapshot) => {
+    console.log("handler called");
+    const data = snapshot.val();
 
-        if (gameStateObj.gamestate[eachKey] == "p1")
-          cellOwnerMap[eachKey] = "red";
-        if (gameStateObj.gamestate[eachKey] == "p2")
-          cellOwnerMap[eachKey] = "blue";
+    if (data && data.gamestate) {
+      const datastr = JSON.stringify(data.gamestate);
+      if (datastr === gamestatestr) return;
+
+      setGamestatestr(datastr);
+
+      const gameStateObj = data;
+
+      const cellOwnerMap = {};
+      if (gameStateObj && gameStateObj.gamestate) {
+        for (const eachKey of Object.keys(gameStateObj.gamestate)) {
+          //console.log(eachKey);
+
+          if (gameStateObj.gamestate[eachKey] == "p1")
+            cellOwnerMap[eachKey] = "red";
+          if (gameStateObj.gamestate[eachKey] == "p2")
+            cellOwnerMap[eachKey] = "blue";
+        }
       }
+      setOwnerMap(cellOwnerMap);
     }
+  });
 
-    setOwnerMap(cellOwnerMap);
+  // const gameCheckInterval = setInterval(async () => {
+  //   const db = await database.ref("/" + roomNum + "").get();
 
-    dispatch(updateGameboard({ gameboard: gameStateObj }));
-  }, 500);
+  //   const gameStateObj = JSON.parse(JSON.stringify(db));
+
+  //   const cellOwnerMap = {};
+  //   if (gameStateObj && gameStateObj.gamestate) {
+  //     for (const eachKey of Object.keys(gameStateObj.gamestate)) {
+  //       //console.log(eachKey);
+
+  //       if (gameStateObj.gamestate[eachKey] == "p1")
+  //         cellOwnerMap[eachKey] = "red";
+  //       if (gameStateObj.gamestate[eachKey] == "p2")
+  //         cellOwnerMap[eachKey] = "blue";
+  //     }
+  //   }
+
+  //   setOwnerMap(cellOwnerMap);
+
+  //   dispatch(updateGameboard({ gameboard: gameStateObj }));
+  // }, 1000);
 
   const boundaryCheck = () => {
     setLeft(Math.floor(Math.random() * 200));
