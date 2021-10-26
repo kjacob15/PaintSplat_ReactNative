@@ -24,38 +24,13 @@ const SplashComponent = ({ tile, color, owner }) => {
   const opponentColor = useSelector(selectOpponentColor);
   //   const gameBoard = useSelector(selectGameboard);
   const dispatch = useDispatch();
-  //   console.log("render tile " + tile);
-
-  //   if (color) setCellColor(color);
-
-  //   const tileOwner = owner;
-  //   if (tileOwner) {
-  //     if (tileOwner === playerName) mycol = playerColor;
-  //     else if (tileOwner === opponentName) mycol = opponentColor;
-  //   }
 
   const setTile = async () => {
     console.log("clicked");
-    // const db = await database.ref("/" + roomNum + "").get();
-    // // if (db.gamestate[tile] && db.gamestate[tile].trim() !== "") {
-    // //   // set the tile here and colour the tile
-    // //   let update = JSON.parse(JSON.stringify(db));
-    // //   update.gamestate[tile] = "P2";
-    // // }
-    // let update = JSON.parse(JSON.stringify(db));
 
-    // if (!update) {
-    //   update = {};
-    // }
+    // if (mycol !== "white" && mycol !== playerColor) return;
 
-    // if (!update.gamestate) {
-    //   update.gamestate = {};
-    // }
-    // update.gamestate[tile] = playerName;
     database.ref("/" + roomNum + "/gamestate/" + tile).set(playerName);
-    // console.log(playerColor);
-    // mycol = playerColor;
-    // dispatch(updateGameboard({ gameboard: update }));
   };
 
   return (
