@@ -35,9 +35,9 @@ const GameScreen = () => {
   console.log(playerDisplayName, opponentDisplayName);
   const dispatch = useDispatch();
   let interval = null;
-  let playerTiles = 0;
-  let opponentTiles = 0;
-  console.log(roomNum);
+  const [playerTiles, setPlayerTiles] = useState(0);
+  const [opponentTiles, setOpponentTiles] = useState(0);
+  // console.log(roomNum);
   useEffect(() => {
     interval = setInterval(() => {
       setTime(Date.now());
@@ -80,8 +80,8 @@ const GameScreen = () => {
         }
 
         if (playerColor == "red") {
-          playerTiles = redTiles;
-          opponentTiles = blueTiles;
+          setPlayerTiles(redTiles);
+          setOpponentTiles(blueTiles);
           if (redTiles > 8) {
             console.log("You Win!");
             stopGame();
@@ -90,8 +90,8 @@ const GameScreen = () => {
             stopGame();
           }
         } else {
-          playerTiles = blueTiles;
-          opponentTiles = redTiles;
+          setPlayerTiles(blueTiles);
+          setOpponentTiles(redTiles);
           if (redTiles > 8) {
             console.log("You Lose!");
             stopGame();
@@ -100,6 +100,7 @@ const GameScreen = () => {
             stopGame();
           }
         }
+        console.log("tiles", playerTiles, opponentTiles);
       }
       setOwnerMap(cellOwnerMap);
     }
@@ -114,7 +115,7 @@ const GameScreen = () => {
     setTop(Math.floor(Math.random() * (windowHeight - 450)));
     // const top_1 = Math.floor(Math.random() * 600);
     // const left_1 = Math.floor(Math.random() * 200)
-    console.log(left, top);
+    // console.log(left, top);
 
     if (Math.abs(windowWidth - left) <= 0) {
       setLeft(left * -1);
