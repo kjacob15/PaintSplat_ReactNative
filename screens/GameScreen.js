@@ -48,6 +48,7 @@ const GameScreen = () => {
   }
 
   // console.log(roomNum);
+
   useEffect(() => {
     interval = setInterval(() => {
       setTime(Date.now());
@@ -123,7 +124,7 @@ const GameScreen = () => {
     setTop(Math.floor(Math.random() * (windowHeight - 450)));
     // const top_1 = Math.floor(Math.random() * 600);
     // const left_1 = Math.floor(Math.random() * 200)
-    // console.log(left, top);
+    console.log(left, top);
 
     if (Math.abs(windowWidth - left) <= 0) {
       setLeft(left * -1);
@@ -167,12 +168,20 @@ const GameScreen = () => {
       </View>
       <View style={styles.bottomView}>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.playerName}>{bluePlayer}</Text>
-          <Text style={styles.scoreText}>{blueTiles}</Text>
+          <Text style={[styles.playerName, { color: "#Ff0005" }]}>
+            {redPlayer}
+          </Text>
+          <Text style={[styles.scoreText, { color: "#Ff0005" }]}>
+            {redTiles}
+          </Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.playerName}>{redPlayer}</Text>
-          <Text style={styles.scoreText}>{redTiles}</Text>
+          <Text style={[styles.playerName, { color: "#31e0dc" }]}>
+            {bluePlayer}
+          </Text>
+          <Text style={[styles.scoreText, { color: "#31e0dc" }]}>
+            {blueTiles}
+          </Text>
         </View>
       </View>
     </SafeAreaView>
@@ -192,8 +201,9 @@ const styles = StyleSheet.create({
   bottomView: {
     width: "87%",
     height: 80,
-    backgroundColor: "#EE5407",
-    paddingTop: 10,
+    backgroundColor: "#5e594c",
+    paddingTop: 5,
+    paddingBottom: 5,
     flexDirection: "row",
     justifyContent: "space-around",
     position: "absolute", //Here is the trick
