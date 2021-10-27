@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, SafeAreaView, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  SafeAreaView,
+  Alert,
+} from "react-native";
 import { selectRoom } from "../slices/roomSlice";
 import { useSelector } from "react-redux";
 import { database } from "../fire";
@@ -7,12 +14,13 @@ import { useDispatch } from "react-redux";
 import { updateGameboard } from "../slices/gameStateSlice";
 import {
   selectPlayerColor,
+  selectPlayer,
+  selectOpponent,
   selectPlayerDisplayName,
   selectOpponentDisplayName,
   selectIsGameOver,
-  setIsGameOver
+  setIsGameOver,
 } from "../slices/playerSlice";
-
 
 import SplashComponent from "./SplashComponent";
 
@@ -20,7 +28,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 import tw from "tailwind-react-native-classnames";
 
-const GameScreen = ({navigation}) => {
+const GameScreen = ({ navigation }) => {
   //console.log(windowHeight, windowWidth);
   const [left, setLeft] = useState(
     Math.floor(Math.random() * (windowWidth - 320))
@@ -33,6 +41,8 @@ const GameScreen = ({navigation}) => {
   const [gamestatestr, setGamestatestr] = useState("");
   const roomNum = useSelector(selectRoom);
   const playerColor = useSelector(selectPlayerColor);
+  const playerName = useSelector(selectPlayer);
+  const opponentName = useSelector(selectOpponent);
   const playerDisplayName = useSelector(selectPlayerDisplayName);
   const opponentDisplayName = useSelector(selectOpponentDisplayName);
 
@@ -66,10 +76,19 @@ const GameScreen = ({navigation}) => {
 
   const roomSnapshot = database.ref("/" + roomNum + "");
 
-  roomSnapshot.on("value", (snapshot) => {
+  roomSnapshot.on("value", async (snapshot) => {
     const data = snapshot.val();
 
+<<<<<<< HEAD
     if (!isGameOverBool && data && data.gamestate) {
+=======
+    if (data && data.gamestate) {
+      if (data.winner && data.winner.trim() !== "") {
+        console.log("Alert again");
+        return;
+      }
+
+>>>>>>> e78e0c25e8ec37cd391cd0155701818edb891107
       const datastr = JSON.stringify(data.gamestate);
       if (datastr === gamestatestr) return;
 
@@ -101,17 +120,21 @@ const GameScreen = ({navigation}) => {
         if (playerColor == "red") {
           if (redTiles > 8) {
             console.log("You Win!");
-            stopGame('WIN');
+            await database.ref("/" + roomNum + "/winner").set(playerName);
+            stopGame("WIN");
           } else if (blueTiles > 8) {
             console.log("You Lose!");
+            await database.ref("/" + roomNum + "/winner").set(opponentName);
             stopGame("LOSE");
           }
         } else {
           if (redTiles > 8) {
             console.log("You Lose!");
+            await database.ref("/" + roomNum + "/winner").set(opponentName);
             stopGame("LOSE");
           } else if (blueTiles > 8) {
             console.log("You Win!");
+            await database.ref("/" + roomNum + "/winner").set(playerName);
             stopGame("WIN");
           }
         }
@@ -122,20 +145,19 @@ const GameScreen = ({navigation}) => {
 
   const stopGame = (result) => {
     if (interval) clearInterval(interval);
-    // if(isGameOverBool) 
+    // if(isGameOverBool)
     // {
     //   console.log(isGameOverBool)
     //   return;
     // }
-    const title = 'Game Over!'
+    const title = "Game Over!";
     let message = "";
-    if(result === 'WIN')
-    {
-      message = "You won!"
+    if (result === "WIN") {
+      message = "You won!";
+    } else {
+      message = "You lost!";
     }
-    else{
-      message = "You lost!"
-    }
+<<<<<<< HEAD
     Alert.alert(
       title,
       message,
@@ -153,6 +175,20 @@ const GameScreen = ({navigation}) => {
     );
     dispatch(setIsGameOver({bool : true}))
     isGameOverBool = useSelector(selectIsGameOver);
+=======
+    Alert.alert(title, message, [
+      {
+        text: "Go back home!",
+        onPress: () => navigation.navigate("Paintsplat Project (ASWE)"),
+      },
+      // {
+      //   text: "Cancel",
+      //   onPress: () => console.log("Cancel Pressed"),
+      //   style: "cancel"
+      // }
+    ]);
+    //dispatch(setIsGameOver({bool : true}))
+>>>>>>> e78e0c25e8ec37cd391cd0155701818edb891107
   };
 
   const boundaryCheck = () => {
