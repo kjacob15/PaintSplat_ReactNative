@@ -14,7 +14,7 @@ import {
 
 import { database } from "../fire";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import tw from 'tailwind-react-native-classnames'
+import tw from "tailwind-react-native-classnames";
 
 const CreateGameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ const CreateGameScreen = ({ navigation }) => {
     isActive: "true",
     p1DisplayName: playerDisplayName,
     p2DisplayName: "",
+    gamestate: {},
   };
   database.ref("/" + randomCode).update(update);
 
@@ -60,9 +61,16 @@ const CreateGameScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate("Game")}>
           <Text style={styles.textRoomCode}>{randomCode}</Text>
         </TouchableOpacity>
-        <View style={[tw`w-full h-96`,{justifyContent:'center', alignItems: 'center'}]}>
-          <Text style={tw`text-lg font-bold mb-5`}>Waiting for the second player...</Text>
-          <ActivityIndicator size="large" color="#0000ff"/>
+        <View
+          style={[
+            tw`w-full h-96`,
+            { justifyContent: "center", alignItems: "center" },
+          ]}
+        >
+          <Text style={tw`text-lg font-bold mb-5`}>
+            Waiting for the second player...
+          </Text>
+          <ActivityIndicator size="large" color="#0000ff" />
         </View>
       </View>
     </View>
