@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Dimensions, SafeAreaView, Alert } from "react-native";
 import { selectRoom } from "../slices/roomSlice";
 import { useSelector } from "react-redux";
 import { database } from "../fire";
@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 import tw from "tailwind-react-native-classnames";
 
-const GameScreen = () => {
+const GameScreen = ({navigation}) => {
   //console.log(windowHeight, windowWidth);
   const [left, setLeft] = useState(
     Math.floor(Math.random() * (windowWidth - 320))
@@ -96,18 +96,18 @@ const GameScreen = () => {
         if (playerColor == "red") {
           if (redTiles > 8) {
             console.log("You Win!");
-            stopGame();
+            stopGame('WIN');
           } else if (blueTiles > 8) {
             console.log("You Lose!");
-            stopGame();
+            stopGame("LOSE");
           }
         } else {
           if (redTiles > 8) {
             console.log("You Lose!");
-            stopGame();
+            stopGame("LOSE");
           } else if (blueTiles > 8) {
             console.log("You Win!");
-            stopGame();
+            stopGame("WIN");
           }
         }
       }
@@ -115,8 +115,32 @@ const GameScreen = () => {
     }
   });
 
-  const stopGame = () => {
+  const stopGame = (result) => {
     if (interval) clearInterval(interval);
+    const title = 'Game Over!'
+    let message = "";
+    if(result === 'WIN')
+    {
+      message = "You won!"
+    }
+    else{
+      message = "You lost!"
+    }
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: "Go back home!",
+          onPress: () => navigation.navigate("Paintsplat Project (ASWE)")
+        },
+        // {
+        //   text: "Cancel",
+        //   onPress: () => console.log("Cancel Pressed"),
+        //   style: "cancel"
+        // }
+      ]
+    );
   };
 
   const boundaryCheck = () => {
