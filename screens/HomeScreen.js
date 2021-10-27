@@ -29,8 +29,8 @@ const HomeScreen = ({ navigation }) => {
 
   const setupJoinGameRoom = async () => {
     const gameState = await database.ref("/" + roomCode).get();
-    console.log(gameState);
-    console.log("isActive", gameState.val().isActive);
+    //console.log(gameState);
+    //console.log('isActive', gameState.val().isActive);
 
     if (!gameState || !gameState.val().isActive) {
       Alert.alert("Invalid Room Id!");
