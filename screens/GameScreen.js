@@ -36,7 +36,7 @@ const GameScreen = ({navigation}) => {
   const playerDisplayName = useSelector(selectPlayerDisplayName);
   const opponentDisplayName = useSelector(selectOpponentDisplayName);
 
-  // const isGameOverBool = useSelector(selectIsGameOver);
+  let isGameOverBool = useSelector(selectIsGameOver);
   console.log(playerDisplayName, opponentDisplayName);
   const dispatch = useDispatch();
   let interval = null;
@@ -69,7 +69,7 @@ const GameScreen = ({navigation}) => {
   roomSnapshot.on("value", (snapshot) => {
     const data = snapshot.val();
 
-    if (data && data.gamestate) {
+    if (!isGameOverBool && data && data.gamestate) {
       const datastr = JSON.stringify(data.gamestate);
       if (datastr === gamestatestr) return;
 
@@ -151,7 +151,8 @@ const GameScreen = ({navigation}) => {
         // }
       ]
     );
-    //dispatch(setIsGameOver({bool : true}))
+    dispatch(setIsGameOver({bool : true}))
+    isGameOverBool = useSelector(selectIsGameOver);
   };
 
   const boundaryCheck = () => {
