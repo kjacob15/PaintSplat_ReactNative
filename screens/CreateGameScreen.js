@@ -58,8 +58,7 @@ const CreateGameScreen = ({ navigation }) => {
     <View>
       <View style={styles.roomCodeContainer}>
         <Text style={styles.textRoomCodeTitle}>Your Random Room Code:</Text>
-        {/* onPress={() => navigation.navigate("Game")} */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Game")}>
           <Text style={styles.textRoomCode}>{randomCode}</Text>
         </TouchableOpacity>
         <View
