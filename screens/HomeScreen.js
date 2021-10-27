@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  SafeAreaView,
+  ScrollView
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { database } from "../fire";
@@ -25,19 +27,27 @@ const HomeScreen = ({ navigation }) => {
   const [displayName, setDisplayName] = useState("");
   const dispatch = useDispatch();
 
-  const setupGameRoom = async () => {
-    const gameState = database.ref("/" + roomNum).get();
+  const setupJoinGameRoom = async () => {
+    const gameState = await database.ref("/" + roomCode).get();
+    console.log(gameState);
+    console.log('isActive', gameState.val().isActive);
 
-    if (!gameState.isActive) {
-      console.log("room doesn't exist");
+    if (!gameState || !gameState.val().isActive) {
+      Alert.alert("Invalid Room Id!")
       return;
     }
 
-    await database.ref("/" + roomNum + "/p2DisplayName").set(""); //TODO: pass playername state variable here
+    if(displayName != ""){
+        await database.ref("/" + roomCode + "/p2DisplayName").set(displayName);
+    }
+    else {
+        setDisplayName('p2')
+        await database.ref("/" + roomCode + "/p2DisplayName").set("p2");
+    }
 
     const opponentName = gameState.p1DisplayName;
     dispatch(setOpponentDisplayName({ displayName: opponentName }));
-    dispatch(setPlayerDisplayName({ displayName: "" })); //TODO: pass playername state variable here
+    dispatch(setPlayerDisplayName({ displayName: displayName })); //TODO: pass playername state variable here
     dispatch(setRoom({ roomId: roomCode }));
     dispatch(setPlayer({ name: "p2" }));
     dispatch(setOpponent({ name: "p1" }));
@@ -46,72 +56,82 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("Game");
   };
 
+  const setupCreateRoom = () => 
+  {
+    if (displayName != ""){dispatch(setPlayerDisplayName({ displayName: displayName }));}
+    else dispatch(setPlayerDisplayName({ displayName: 'p1' }));
+    
+    navigation.navigate("Create Game")
+  }
+
   console.log(roomCode);
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>PaintSplat (ASWE)</Text>
-      </View>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: "https://t4.ftcdn.net/jpg/02/31/80/07/360_F_231800782_XmCI68ogKBHYg1ObcbXgrYK00436gIn4.jpg",
-          }}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.buttonsContainer}>
-        <View>
-          <TextInput
-            style={[styles.textInput, { width: 250, marginTop: -40 }]}
-            placeholder="Enter your player name:"
-            value={displayName}
-            onChangeText={(e) => setDisplayName(e)}
-          ></TextInput>
+    <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+      <ScrollView>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>PaintSplat (ASWE)</Text>
         </View>
-
-        <View style={styles.createOrJoinContainer}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: "https://t4.ftcdn.net/jpg/02/31/80/07/360_F_231800782_XmCI68ogKBHYg1ObcbXgrYK00436gIn4.jpg",
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.buttonsContainer}>
           <View>
             <TextInput
-              style={styles.textInput}
-              placeholder="Enter Room id"
-              value={roomCode}
-              onChangeText={(e) => setRoomCode(e)}
+              style={[styles.textInput, { width: 250, marginTop: -40 }]}
+              placeholder="Enter your player name:"
+              value={displayName}
+              onChangeText={(e) => setDisplayName(e)}
             ></TextInput>
-            <TouchableOpacity
-              style={[styles.button, { marginBottom: 0 }]}
-              onPress={setupGameRoom}
-            >
-              <Text style={{ fontSize: 20, color: "white" }}>
-                Join Game Room
-              </Text>
-            </TouchableOpacity>
           </View>
 
-          <Text
-            style={{
-              textAlign: "center",
-              marginVertical: 30,
-              fontWeight: "bold",
-              fontSize: 20,
-            }}
-          >
-            OR
-          </Text>
+          <View style={styles.createOrJoinContainer}>
+            <SafeAreaView>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Enter Room id"
+                value={roomCode}
+                onChangeText={(e) => setRoomCode(e)}
+              ></TextInput>
+              <TouchableOpacity
+                style={[styles.button, { marginBottom: 0 }]}
+                onPress={roomCode ? setupJoinGameRoom : null}
+              >
+                <Text style={{ fontSize: 20, color: "white" }}>
+                  Join Game Room
+                </Text>
+              </TouchableOpacity>
+            </SafeAreaView>
 
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Create Game")}
-              style={styles.button}
+            <Text
+              style={{
+                textAlign: "center",
+                marginVertical: 30,
+                fontWeight: "bold",
+                fontSize: 20,
+              }}
             >
-              <Text style={{ fontSize: 20, color: "white" }}>
-                Create Game Room
-              </Text>
-            </TouchableOpacity>
+              OR
+            </Text>
+
+            <View>
+              <TouchableOpacity
+                onPress={setupCreateRoom}
+                style={styles.button}
+              >
+                <Text style={{ fontSize: 20, color: "white" }}>
+                  Create Game Room
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

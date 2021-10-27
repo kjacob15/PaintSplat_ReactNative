@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { useDispatch } from "react-redux";
 import { setRoom } from "../slices/roomSlice";
-
+import { useSelector } from "react-redux";
 import {
   setPlayer,
   setOpponent,
@@ -14,6 +14,7 @@ import {
 
 import { database } from "../fire";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import tw from 'tailwind-react-native-classnames'
 
 const CreateGameScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const CreateGameScreen = ({ navigation }) => {
     }
     return result;
   }
-  const [randomCode, setRandomCode] = useState(getRandomString(4));
+  const [randomCode, setRandomCode] = useState(getRandomString(5));
   const update = {
     isActive: "true",
     p1DisplayName: playerDisplayName,
@@ -59,6 +60,10 @@ const CreateGameScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate("Game")}>
           <Text style={styles.textRoomCode}>{randomCode}</Text>
         </TouchableOpacity>
+        <View style={[tw`w-full h-96`,{justifyContent:'center', alignItems: 'center'}]}>
+          <Text style={tw`text-lg font-bold mb-5`}>Waiting for the second player...</Text>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
       </View>
     </View>
   );
