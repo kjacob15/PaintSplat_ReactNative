@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
     width: '87%',
     height: 80,
     backgroundColor: '#EE5407',
-    paddingTop: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     flexDirection:'row',
     justifyContent: 'space-around',
     position: 'absolute', //Here is the trick
