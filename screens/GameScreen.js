@@ -76,7 +76,8 @@ const GameScreen = ({ navigation }) => {
 
   const roomSnapshot = database.ref("/" + roomNum + "");
 
-  roomSnapshot.on("value", async (snapshot) => {
+  // roomSnapshot.on("value", async (snapshot) => {
+  roomSnapshot.on("value", (snapshot) => {
     const data = snapshot.val();
 
     if (data && data.gamestate) {
@@ -111,27 +112,30 @@ const GameScreen = ({ navigation }) => {
         if (playerColor == "red") {
           if (redTiles_ > 8) {
             console.log("You Win!");
-            await database.ref("/" + roomNum + "/winner").set(playerName);
+            // await database.ref("/" + roomNum + "/winner").set(playerName);
             stopGame("WIN", redTiles_, blueTiles_);
             roomSnapshot.off("value");
+            return;
           } else if (blueTiles_ > 8) {
             console.log("You Lose!");
-            await database.ref("/" + roomNum + "/winner").set(opponentName);
+            // await database.ref("/" + roomNum + "/winner").set(opponentName);
             stopGame("LOSE", redTiles_, blueTiles_);
             roomSnapshot.off("value");
+            return;
           }
         } else {
           if (redTiles_ > 8) {
             console.log("You Lose!");
-            await database.ref("/" + roomNum + "/winner").set(opponentName);
+            // await database.ref("/" + roomNum + "/winner").set(opponentName);
             stopGame("LOSE", redTiles_, blueTiles_);
             roomSnapshot.off("value");
-
+            return;
           } else if (blueTiles > 8) {
             console.log("You Win!");
-            await database.ref("/" + roomNum + "/winner").set(playerName);
+            // await database.ref("/" + roomNum + "/winner").set(playerName);
             stopGame("WIN", redTiles_, blueTiles_);
             roomSnapshot.off("value");
+            return;
           }
         }
       }
@@ -154,25 +158,25 @@ const GameScreen = ({ navigation }) => {
       message = "You lost!";
     }
 
-    // navigation.navigate("Game Scores", {
-    //   redScore: redTiles_,
-    //   blueScore: blueTiles_,
-    //   redPlayer: redPlayer,
-    //   bluePlayer: bluePlayer,
-    //   message: message,
-    // });
+    navigation.navigate("Game Scores", {
+      redScore: redTiles_,
+      blueScore: blueTiles_,
+      redPlayer: redPlayer,
+      bluePlayer: bluePlayer,
+      message: message,
+    });
 
-    Alert.alert(title, message, [
-      {
-        text: "Go back home!",
-        onPress: () => navigation.navigate("Paintsplat Project (ASWE)"),
-      },
-      // {
-      //   text: "Cancel",
-      //   onPress: () => console.log("Cancel Pressed"),
-      //   style: "cancel"
-      // }
-    ]);
+    // Alert.alert(title, message, [
+    //   {
+    //     text: "Go back home!",
+    //     onPress: () => navigation.navigate("Paintsplat Project (ASWE)"),
+    //   },
+    //   // {
+    //   //   text: "Cancel",
+    //   //   onPress: () => console.log("Cancel Pressed"),
+    //   //   style: "cancel"
+    //   // }
+    // ]);
   };
 
   const boundaryCheck = () => {
