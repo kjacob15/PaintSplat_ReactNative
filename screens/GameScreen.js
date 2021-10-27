@@ -35,9 +35,9 @@ const GameScreen = () => {
   console.log(playerDisplayName, opponentDisplayName);
   const dispatch = useDispatch();
   let interval = null;
-  const [playerTiles, setPlayerTiles] = useState(0);
-  const [opponentTiles, setOpponentTiles] = useState(0);
-  // console.log(roomNum);
+  let playerTiles = 0;
+  let opponentTiles = 0;
+  console.log(roomNum);
   useEffect(() => {
     interval = setInterval(() => {
       setTime(Date.now());
@@ -80,8 +80,8 @@ const GameScreen = () => {
         }
 
         if (playerColor == "red") {
-          setPlayerTiles(redTiles);
-          setOpponentTiles(blueTiles);
+          playerTiles = redTiles;
+          opponentTiles = blueTiles;
           if (redTiles > 8) {
             console.log("You Win!");
             stopGame();
@@ -90,8 +90,8 @@ const GameScreen = () => {
             stopGame();
           }
         } else {
-          setPlayerTiles(blueTiles);
-          setOpponentTiles(redTiles);
+          playerTiles = blueTiles;
+          opponentTiles = redTiles;
           if (redTiles > 8) {
             console.log("You Lose!");
             stopGame();
@@ -100,7 +100,6 @@ const GameScreen = () => {
             stopGame();
           }
         }
-        console.log("tiles", playerTiles, opponentTiles);
       }
       setOwnerMap(cellOwnerMap);
     }
@@ -115,7 +114,7 @@ const GameScreen = () => {
     setTop(Math.floor(Math.random() * (windowHeight - 450)));
     // const top_1 = Math.floor(Math.random() * 600);
     // const left_1 = Math.floor(Math.random() * 200)
-    // console.log(left, top);
+    console.log(left, top);
 
     if (Math.abs(windowWidth - left) <= 0) {
       setLeft(left * -1);
@@ -159,12 +158,12 @@ const GameScreen = () => {
       </View>
       <View style={styles.bottomView}>
         <View style={{ alignItems: "center" }}>
-          <Text style={[styles.playerName, {color: '#31e0dc'}]}>{playerDisplayName}</Text>
-          <Text style={[styles.scoreText, {color: '#31e0dc'}]}>{playerTiles}</Text>
+          <Text style={[styles.playerName, {color: '#Ff0005'}]}>{playerDisplayName}</Text>
+          <Text style={[styles.scoreText, {color: '#Ff0005'}]}>{playerTiles}</Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={[styles.playerName, {color: '#F21e22'}]}>{opponentDisplayName}</Text>
-          <Text style={[styles.scoreText, {color: '#F21e22'}]}>{opponentTiles}</Text>
+          <Text style={[styles.playerName, {color: '#31e0dc'}]}>{opponentDisplayName}</Text>
+          <Text style={[styles.scoreText, {color: '#31e0dc'}]}>{opponentTiles}</Text>
         </View>
       </View>
     </SafeAreaView>
