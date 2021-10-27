@@ -22,9 +22,10 @@ const GameScreen = () => {
   const roomNum = useSelector(selectRoom);
   const playerColor = useSelector(selectPlayerColor);
   const dispatch = useDispatch();
+  let interval = null;
   //console.log(roomNum);
   useEffect(() => {
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
       setTime(Date.now());
       boundaryCheck();
     }, 1000);
@@ -66,20 +67,28 @@ const GameScreen = () => {
         if (playerColor == "red") {
           if (redTiles > 8) {
             console.log("You Win!");
+            stopGame();
           } else if (blueTiles > 8) {
             console.log("You Lose!");
+            stopGame();
           }
         } else {
           if (redTiles > 8) {
             console.log("You Lose!");
+            stopGame();
           } else if (blueTiles > 8) {
             console.log("You Win!");
+            stopGame();
           }
         }
       }
       setOwnerMap(cellOwnerMap);
     }
   });
+
+  const stopGame = () => {
+    if (interval) clearInterval(interval);
+  };
 
   const boundaryCheck = () => {
     setLeft(Math.floor(Math.random() * 200));

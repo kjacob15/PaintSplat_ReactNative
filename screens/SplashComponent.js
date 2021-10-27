@@ -28,6 +28,8 @@ const SplashComponent = ({ tile, color, owner }) => {
   const setTile = async () => {
     console.log("clicked");
 
+    if (mycol !== "white" && mycol === playerColor) return; //already my tile so skip
+
     // if (mycol !== "white" && mycol !== playerColor) return;
 
     database.ref("/" + roomNum + "/gamestate/" + tile).set(playerName);
