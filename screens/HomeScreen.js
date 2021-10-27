@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
       return;
     }
 
-    if(displayName != ""){
+    if(displayName && displayName.trim() !== ""){
         await database.ref("/" + roomCode + "/p2DisplayName").set(displayName);
     }
     else {
@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
 
   const setupCreateRoom = () => 
   {
-    if (displayName != ""){dispatch(setPlayerDisplayName({ displayName: displayName }));}
+    if (displayName && displayName.trim() !== ""){dispatch(setPlayerDisplayName({ displayName: displayName }));}
     else dispatch(setPlayerDisplayName({ displayName: 'p1' }));
     
     navigation.navigate("Create Game")
