@@ -123,7 +123,7 @@ const GameScreen = ({ navigation }) => {
           if (redTiles_ > 8) {
             console.log("You Lose!");
             await database.ref("/" + roomNum + "/winner").set(opponentName);
-            stopGame("LOSE"), redTiles_, blueTiles_;
+            stopGame("LOSE", redTiles_, blueTiles_);
           } else if (blueTiles > 8) {
             console.log("You Win!");
             await database.ref("/" + roomNum + "/winner").set(playerName);
