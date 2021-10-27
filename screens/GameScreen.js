@@ -48,8 +48,8 @@ const GameScreen = () => {
 
       const cellOwnerMap = {};
       if (gameStateObj && gameStateObj.gamestate) {
-        const redTiles = 0;
-        const blueTiles = 0;
+        let redTiles = 0;
+        let blueTiles = 0;
         for (const eachKey of Object.keys(gameStateObj.gamestate)) {
           //console.log(eachKey);
 
