@@ -8,6 +8,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./screens/HomeScreen";
 import CreateGameScreen from "./screens/CreateGameScreen";
 import GameScreen from "./screens/GameScreen";
+import GameScore from "./screens/GameScore";
+
 import { store } from "./store";
 import { Provider } from "react-redux";
 
@@ -69,6 +71,7 @@ export default function App() {
           <Stack.Screen name="Paintsplat Project (ASWE)" component={HomeScreen} />
           <Stack.Screen name="Create Game" component={CreateGameScreen} />
           <Stack.Screen name="Game" component={GameScreen}/>
+          <Stack.Screen name="Game Scores" component={GameScore}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

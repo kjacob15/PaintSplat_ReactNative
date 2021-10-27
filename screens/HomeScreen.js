@@ -24,6 +24,8 @@ import {
 } from "../slices/playerSlice";
 
 const HomeScreen = ({ navigation }) => {
+  // navigation.navigate('Game Scores', {redScore: "9", blueScore: "0", 
+  //   redPlayer: 'p1', bluePlayer: 'p2', message: "You Won!"})
   const [roomCode, setRoomCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const dispatch = useDispatch();

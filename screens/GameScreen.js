@@ -79,16 +79,8 @@ const GameScreen = ({ navigation }) => {
   roomSnapshot.on("value", async (snapshot) => {
     const data = snapshot.val();
 
-<<<<<<< HEAD
-    if (!isGameOverBool && data && data.gamestate) {
-=======
     if (data && data.gamestate) {
-      if (data.winner && data.winner.trim() !== "") {
-        console.log("Alert again");
-        return;
-      }
 
->>>>>>> e78e0c25e8ec37cd391cd0155701818edb891107
       const datastr = JSON.stringify(data.gamestate);
       if (datastr === gamestatestr) return;
 
@@ -98,44 +90,44 @@ const GameScreen = ({ navigation }) => {
 
       const cellOwnerMap = {};
       if (gameStateObj && gameStateObj.gamestate) {
-        let redTiles = 0;
-        let blueTiles = 0;
+        let redTiles_ = 0;
+        let blueTiles_ = 0;
 
         for (const eachKey of Object.keys(gameStateObj.gamestate)) {
           //console.log(eachKey);
 
           if (gameStateObj.gamestate[eachKey] == "p1") {
-            redTiles += 1;
+            redTiles_ += 1;
             cellOwnerMap[eachKey] = "red";
           }
           if (gameStateObj.gamestate[eachKey] == "p2") {
-            blueTiles += 1;
+            blueTiles_ += 1;
             cellOwnerMap[eachKey] = "blue";
           }
         }
 
-        setRedTiles(redTiles);
-        setBlueTiles(blueTiles);
-
+        setRedTiles(redTiles_);
+        setBlueTiles(blueTiles_);
+        
         if (playerColor == "red") {
-          if (redTiles > 8) {
+          if (redTiles_ > 8) {
             console.log("You Win!");
             await database.ref("/" + roomNum + "/winner").set(playerName);
-            stopGame("WIN");
-          } else if (blueTiles > 8) {
+            stopGame("WIN", redTiles_, blueTiles_);
+          } else if (blueTiles_ > 8) {
             console.log("You Lose!");
             await database.ref("/" + roomNum + "/winner").set(opponentName);
-            stopGame("LOSE");
+            stopGame("LOSE", redTiles_, blueTiles_);
           }
         } else {
-          if (redTiles > 8) {
+          if (redTiles_ > 8) {
             console.log("You Lose!");
             await database.ref("/" + roomNum + "/winner").set(opponentName);
-            stopGame("LOSE");
+            stopGame("LOSE"), redTiles_, blueTiles_;
           } else if (blueTiles > 8) {
             console.log("You Win!");
             await database.ref("/" + roomNum + "/winner").set(playerName);
-            stopGame("WIN");
+            stopGame("WIN", redTiles_, blueTiles_);
           }
         }
       }
@@ -143,7 +135,7 @@ const GameScreen = ({ navigation }) => {
     }
   });
 
-  const stopGame = (result) => {
+  const stopGame = (result, redTiles_, blueTiles_) => {
     if (interval) clearInterval(interval);
     // if(isGameOverBool)
     // {
@@ -157,38 +149,9 @@ const GameScreen = ({ navigation }) => {
     } else {
       message = "You lost!";
     }
-<<<<<<< HEAD
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: "Go back home!",
-          onPress: () => navigation.navigate("Paintsplat Project (ASWE)")
-        },
-        // {
-        //   text: "Cancel",
-        //   onPress: () => console.log("Cancel Pressed"),
-        //   style: "cancel"
-        // }
-      ]
-    );
-    dispatch(setIsGameOver({bool : true}))
-    isGameOverBool = useSelector(selectIsGameOver);
-=======
-    Alert.alert(title, message, [
-      {
-        text: "Go back home!",
-        onPress: () => navigation.navigate("Paintsplat Project (ASWE)"),
-      },
-      // {
-      //   text: "Cancel",
-      //   onPress: () => console.log("Cancel Pressed"),
-      //   style: "cancel"
-      // }
-    ]);
-    //dispatch(setIsGameOver({bool : true}))
->>>>>>> e78e0c25e8ec37cd391cd0155701818edb891107
+
+    navigation.navigate('Game Scores', {redScore: redTiles_, blueScore: blueTiles_, 
+              redPlayer: redPlayer, bluePlayer: 'p2', message: message})
   };
 
   const boundaryCheck = () => {
