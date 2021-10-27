@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { database } from "../fire";
@@ -33,19 +33,19 @@ const HomeScreen = ({ navigation }) => {
     //console.log('isActive', gameState.val().isActive);
 
     if (!gameState || !gameState.val().isActive) {
-      Alert.alert("Invalid Room Id!")
+      Alert.alert("Invalid Room Id!");
       return;
     }
 
-    if(displayName && displayName.trim() !== ""){
-        await database.ref("/" + roomCode + "/p2DisplayName").set(displayName);
-    }
-    else {
-        setDisplayName('p2')
-        await database.ref("/" + roomCode + "/p2DisplayName").set("p2");
+    if (displayName && displayName.trim() !== "") {
+      await database.ref("/" + roomCode + "/p2DisplayName").set(displayName);
+    } else {
+      setDisplayName("p2");
+      await database.ref("/" + roomCode + "/p2DisplayName").set("p2");
     }
 
-    const opponentName = gameState.p1DisplayName;
+    const opponentName = gameState.val().p1DisplayName;
+
     dispatch(setOpponentDisplayName({ displayName: opponentName }));
     dispatch(setPlayerDisplayName({ displayName: displayName })); //TODO: pass playername state variable here
     dispatch(setRoom({ roomId: roomCode }));
@@ -56,13 +56,13 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("Game");
   };
 
-  const setupCreateRoom = () => 
-  {
-    if (displayName && displayName.trim() !== ""){dispatch(setPlayerDisplayName({ displayName: displayName }));}
-    else dispatch(setPlayerDisplayName({ displayName: 'p1' }));
-    
-    navigation.navigate("Create Game")
-  }
+  const setupCreateRoom = () => {
+    if (displayName && displayName.trim() !== "") {
+      dispatch(setPlayerDisplayName({ displayName: displayName }));
+    } else dispatch(setPlayerDisplayName({ displayName: "p1" }));
+
+    navigation.navigate("Create Game");
+  };
 
   console.log(roomCode);
   return (
@@ -119,10 +119,7 @@ const HomeScreen = ({ navigation }) => {
             </Text>
 
             <View>
-              <TouchableOpacity
-                onPress={setupCreateRoom}
-                style={styles.button}
-              >
+              <TouchableOpacity onPress={setupCreateRoom} style={styles.button}>
                 <Text style={{ fontSize: 20, color: "white" }}>
                   Create Game Room
                 </Text>
