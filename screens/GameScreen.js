@@ -153,13 +153,25 @@ const GameScreen = ({ navigation }) => {
       message = "You lost!";
     }
 
-    navigation.navigate("Game Scores", {
-      redScore: redTiles_,
-      blueScore: blueTiles_,
-      redPlayer: redPlayer,
-      bluePlayer: bluePlayer,
-      message: message,
-    });
+    // navigation.navigate("Game Scores", {
+    //   redScore: redTiles_,
+    //   blueScore: blueTiles_,
+    //   redPlayer: redPlayer,
+    //   bluePlayer: bluePlayer,
+    //   message: message,
+    // });
+
+    Alert.alert(title, message, [
+      {
+        text: "Go back home!",
+        onPress: () => navigation.navigate("Paintsplat Project (ASWE)"),
+      },
+      // {
+      //   text: "Cancel",
+      //   onPress: () => console.log("Cancel Pressed"),
+      //   style: "cancel"
+      // }
+    ]);
   };
 
   const boundaryCheck = () => {
