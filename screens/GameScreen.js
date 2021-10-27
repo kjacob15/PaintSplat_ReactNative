@@ -80,7 +80,6 @@ const GameScreen = ({ navigation }) => {
     const data = snapshot.val();
 
     if (data && data.gamestate) {
-
       const datastr = JSON.stringify(data.gamestate);
       if (datastr === gamestatestr) return;
 
@@ -108,26 +107,30 @@ const GameScreen = ({ navigation }) => {
 
         setRedTiles(redTiles_);
         setBlueTiles(blueTiles_);
-        
+
         if (playerColor == "red") {
           if (redTiles_ > 8) {
             console.log("You Win!");
             await database.ref("/" + roomNum + "/winner").set(playerName);
             stopGame("WIN", redTiles_, blueTiles_);
+            roomSnapshot.off("value");
           } else if (blueTiles_ > 8) {
             console.log("You Lose!");
             await database.ref("/" + roomNum + "/winner").set(opponentName);
             stopGame("LOSE", redTiles_, blueTiles_);
+            roomSnapshot.off("value");
           }
         } else {
           if (redTiles_ > 8) {
             console.log("You Lose!");
             await database.ref("/" + roomNum + "/winner").set(opponentName);
-            stopGame("LOSE"), redTiles_, blueTiles_;
+            stopGame("LOSE", redTiles_, blueTiles_);
+            roomSnapshot.off("value");
           } else if (blueTiles > 8) {
             console.log("You Win!");
             await database.ref("/" + roomNum + "/winner").set(playerName);
             stopGame("WIN", redTiles_, blueTiles_);
+            roomSnapshot.off("value");
           }
         }
       }
@@ -150,8 +153,13 @@ const GameScreen = ({ navigation }) => {
       message = "You lost!";
     }
 
-    navigation.navigate('Game Scores', {redScore: redTiles_, blueScore: blueTiles_, 
-              redPlayer: redPlayer, bluePlayer: bluePlayer, message: message})
+    navigation.navigate("Game Scores", {
+      redScore: redTiles_,
+      blueScore: blueTiles_,
+      redPlayer: redPlayer,
+      bluePlayer: bluePlayer,
+      message: message,
+    });
   };
 
   const boundaryCheck = () => {
