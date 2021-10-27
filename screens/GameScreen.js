@@ -9,7 +9,10 @@ import {
   selectPlayerColor,
   selectPlayerDisplayName,
   selectOpponentDisplayName,
+  selectIsGameOver,
+  setIsGameOver
 } from "../slices/playerSlice";
+
 
 import SplashComponent from "./SplashComponent";
 
@@ -32,6 +35,8 @@ const GameScreen = ({navigation}) => {
   const playerColor = useSelector(selectPlayerColor);
   const playerDisplayName = useSelector(selectPlayerDisplayName);
   const opponentDisplayName = useSelector(selectOpponentDisplayName);
+
+  // const isGameOverBool = useSelector(selectIsGameOver);
   console.log(playerDisplayName, opponentDisplayName);
   const dispatch = useDispatch();
   let interval = null;
@@ -117,6 +122,11 @@ const GameScreen = ({navigation}) => {
 
   const stopGame = (result) => {
     if (interval) clearInterval(interval);
+    // if(isGameOverBool) 
+    // {
+    //   console.log(isGameOverBool)
+    //   return;
+    // }
     const title = 'Game Over!'
     let message = "";
     if(result === 'WIN')
@@ -141,6 +151,7 @@ const GameScreen = ({navigation}) => {
         // }
       ]
     );
+    //dispatch(setIsGameOver({bool : true}))
   };
 
   const boundaryCheck = () => {

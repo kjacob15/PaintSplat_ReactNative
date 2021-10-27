@@ -6,7 +6,8 @@ const initialState = {
     playerColor: null,
     opponentColor: null,
     playerDisplayName: null,
-    opponentDisplayName: null
+    opponentDisplayName: null,
+    isGameOver: false,
   };
   
   export const playerSlice = createSlice({
@@ -31,12 +32,16 @@ const initialState = {
       },
       setOpponentDisplayName: (state, action) => {
         state.opponentDisplayName = action.payload.displayName;
+      },
+      setIsGameOver: (state, action) => {
+        state.isGameOver = action.payload.bool;
       }
       
     },
   });
   
-  export const { setPlayer, setOpponent, setPlayerColor, setOpponentColor, setPlayerDisplayName,  setOpponentDisplayName} = playerSlice.actions;
+  export const { setPlayer, setOpponent, setPlayerColor, setOpponentColor, 
+    setPlayerDisplayName,  setOpponentDisplayName, setIsGameOver} = playerSlice.actions;
   
   // Selectors
   export const selectPlayer = (state) => state.player.player;
@@ -46,5 +51,6 @@ const initialState = {
 
   export const selectOpponentDisplayName = (state) => state.player.opponentDisplayName;
   export const selectPlayerDisplayName = (state) => state.player.playerDisplayName;
+  export const selectIsGameOver = (state) => state.player.isGameOver;
   
   export default playerSlice.reducer;

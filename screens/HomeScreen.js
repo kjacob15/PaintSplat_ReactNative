@@ -20,19 +20,21 @@ import {
   setOpponentColor,
   setOpponentDisplayName,
   setPlayerDisplayName,
+  setIsGameOver
 } from "../slices/playerSlice";
 
 const HomeScreen = ({ navigation }) => {
   const [roomCode, setRoomCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const dispatch = useDispatch();
+  //dispatch(setIsGameOver({bool : false}))
 
   const setupJoinGameRoom = async () => {
     const gameState = await database.ref("/" + roomCode).get();
     //console.log(gameState);
     //console.log('isActive', gameState.val().isActive);
 
-    if (!gameState || !gameState.val().isActive) {
+    if (!gameState || !gameState.val() || !gameState.val().isActive) {
       Alert.alert("Invalid Room Id!");
       return;
     }
