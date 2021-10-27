@@ -151,7 +151,7 @@ const GameScreen = ({ navigation }) => {
     }
 
     navigation.navigate('Game Scores', {redScore: redTiles_, blueScore: blueTiles_, 
-              redPlayer: redPlayer, bluePlayer: 'p2', message: message})
+              redPlayer: redPlayer, bluePlayer: bluePlayer, message: message})
   };
 
   const boundaryCheck = () => {
